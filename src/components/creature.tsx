@@ -5,7 +5,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 
 interface CreatureProps {
-  status: 'neutral' | 'crying' | 'dancing' | 'kissing';
+  status: 'neutral' | 'crying' | 'dancing' | 'kissing' | 'nervous';
   type?: 'girl' | 'boy';
   className?: string;
   flip?: boolean;
@@ -14,6 +14,7 @@ interface CreatureProps {
 export function Creature({ status, type = 'girl', className, flip }: CreatureProps) {
   const isBoy = type === 'boy';
   const isKissing = status === 'kissing';
+  const isNervous = status === 'nervous';
 
   return (
     <div className={cn(
@@ -31,10 +32,17 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
           <div className="w-1.5 md:w-2 h-4 md:h-5 bg-blue-300/80 rounded-full animate-tear shadow-sm" style={{ animationDelay: '0.4s' }} />
         </div>
       )}
+
+      {/* Sweat drop for nervous state */}
+      {isNervous && (
+        <div className="absolute top-6 left-1/2 ml-8 z-30">
+          <div className="w-1.5 h-3 bg-blue-200 rounded-full animate-tear opacity-70" />
+        </div>
+      )}
       
       <div className={cn(
         "transition-all duration-500 origin-bottom",
-        status === 'crying' && "animate-shake",
+        (status === 'crying' || isNervous) && "animate-shake",
         status === 'dancing' && "animate-dance",
         isKissing && "animate-float"
       )}>
@@ -64,7 +72,6 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
 
           {/* Hair - Back Layer */}
           {isBoy ? (
-            /* Thicker Boy Hair Back */
             <path
               d="M40 35C40 15 55 5 80 5C105 5 120 15 120 35V60H40V35Z"
               fill="url(#hairGradient)"
@@ -120,6 +127,11 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
                 <path d={isBoy ? "M62 48Q70 42 78 48" : "M62 58Q70 52 78 58"} stroke="#4B5563" strokeWidth="3" strokeLinecap="round" fill="none" />
                 <path d={isBoy ? "M82 48Q90 42 98 48" : "M82 58Q90 52 98 58"} stroke="#4B5563" strokeWidth="3" strokeLinecap="round" fill="none" />
               </>
+            ) : isNervous ? (
+              <>
+                <circle cx="65" cy={isBoy ? "48" : "58"} r="3.5" fill="#1A1A1A" className="animate-pulse" />
+                <circle cx="95" cy={isBoy ? "48" : "58"} r="3.5" fill="#1A1A1A" className="animate-pulse" />
+              </>
             ) : isKissing ? (
               <>
                 <path d={isBoy ? "M60 48Q65 44 70 48" : "M60 58Q65 54 70 58"} stroke="#1A1A1A" strokeWidth="2" fill="none" />
@@ -142,6 +154,8 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
               <path d={isBoy ? "M75 65Q80 70 85 65" : "M75 75Q80 80 85 75"} stroke="#B8144D" strokeWidth="3" strokeLinecap="round" />
             ) : status === 'crying' ? (
               <path d={isBoy ? "M70 65Q80 60 90 65" : "M70 75Q80 70 90 75"} stroke="#4B5563" strokeWidth="3" strokeLinecap="round" />
+            ) : isNervous ? (
+              <path d={isBoy ? "M70 65Q80 62 90 65" : "M70 75Q80 72 90 75"} stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" />
             ) : status === 'dancing' ? (
               <path d={isBoy ? "M72 62Q80 72 88 62" : "M72 72Q80 82 88 72"} fill={isBoy ? "#1E40AF" : "#BE185D"} />
             ) : (
@@ -150,7 +164,6 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
 
             {/* Hair - Front */}
             {isBoy ? (
-              /* Thicker Boy Hair Front */
               <path
                 d="M40 35C40 20 55 10 80 10C105 10 120 20 120 35C120 35 100 28 80 28C60 28 40 35 40 35Z"
                 fill="url(#hairGradient)"
@@ -166,14 +179,12 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
           {/* Torso */}
           {isBoy ? (
             <>
-              {/* Black Shirt - Extended for height */}
               <path
                 d="M55 80H105V135H55V80Z"
                 fill="#1A1A1A"
                 stroke="#000000"
                 strokeWidth="1"
               />
-              {/* Beige Pants - Extended for height */}
               <path
                 d="M55 135H105V165H55V135Z"
                 fill="#F5F5DC"
@@ -182,7 +193,6 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
               />
             </>
           ) : (
-            /* Red Gown */
             <path
               d="M60 90L35 185H125L100 90H60Z"
               fill="url(#gownGradient)"
@@ -202,6 +212,11 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
               <path d={isBoy ? "M60 95Q50 80 65 65" : "M60 105Q50 90 65 75"} stroke="#FED7AA" strokeWidth="7" strokeLinecap="round" />
               <path d={isBoy ? "M100 95Q110 80 95 65" : "M100 105Q110 90 95 75"} stroke="#FED7AA" strokeWidth="7" strokeLinecap="round" />
             </>
+          ) : isNervous ? (
+            <>
+              <path d={isBoy ? "M60 95Q55 105 45 115" : "M60 105Q55 115 45 125"} stroke="#FED7AA" strokeWidth="7" strokeLinecap="round" />
+              <path d={isBoy ? "M100 95Q105 105 115 115" : "M100 105Q105 115 115 125"} stroke="#FED7AA" strokeWidth="7" strokeLinecap="round" />
+            </>
           ) : (
             <>
               <path d={isBoy ? "M60 95Q55 105 55 125" : "M60 105Q55 115 55 135"} stroke="#FED7AA" strokeWidth="7" strokeLinecap="round" />
@@ -209,14 +224,14 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
             </>
           )}
 
-          {/* Legs - Only show for boy as the girl's gown covers them */}
+          {/* Legs */}
           {isBoy && !isKissing && (
-            <g className={cn(status === 'crying' && "animate-run-legs")}>
-              <g className={cn(status === 'crying' && "animate-leg-left")}>
+            <g className={cn((status === 'crying' || isNervous) && "animate-run-legs")}>
+              <g className={cn((status === 'crying' || isNervous) && "animate-leg-left")}>
                 <path d="M68 150V190" stroke="#F5F5DC" strokeWidth="8" strokeLinecap="round" />
                 <rect x="60" y="186" width="18" height="8" rx="4" fill="#1F2937" />
               </g>
-              <g className={cn(status === 'crying' && "animate-leg-right")}>
+              <g className={cn((status === 'crying' || isNervous) && "animate-leg-right")}>
                 <path d="M92 150V190" stroke="#F5F5DC" strokeWidth="8" strokeLinecap="round" />
                 <rect x="84" y="186" width="18" height="8" rx="4" fill="#1F2937" />
               </g>
@@ -228,6 +243,7 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
       <div className="mt-2 font-body italic text-sm md:text-base text-foreground/80 text-center px-4 max-w-[280px]">
         {status === 'crying' && "Please don't go... 🥺"}
         {isKissing && "A fairy tale ending! ❤️"}
+        {isNervous && "She looks upset... oh no! 😰"}
         {status === 'dancing' && (isBoy ? "She said YES! 🌟" : "My heart is dancing! 🌸")}
       </div>
     </div>

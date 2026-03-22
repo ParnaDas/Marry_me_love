@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState, useEffect } from 'react';
@@ -60,10 +61,16 @@ export default function ProposalPage() {
   const noScale = Math.max(0, 1 - (noClicks * 0.33));
   const noVisible = noClicks < 3;
 
-  const creatureStatus = isAccepted 
+  const girlStatus = isAccepted 
     ? 'dancing' 
     : noClicks > 0 
     ? 'crying' 
+    : 'neutral';
+
+  const boyStatus = isAccepted
+    ? 'dancing'
+    : noClicks > 0
+    ? 'nervous'
     : 'neutral';
 
   if (isAccepted) {
@@ -107,11 +114,11 @@ export default function ProposalPage() {
           transform: `translate(-50%, -50%) scale(0.5)`
         }}
       >
-        <Creature type="boy" status={creatureStatus === 'crying' ? 'crying' : 'neutral'} />
+        <Creature type="boy" status={boyStatus} />
       </div>
 
       {/* Randomly moving crying girl */}
-      {creatureStatus === 'crying' && creaturePos && (
+      {girlStatus === 'crying' && creaturePos && (
         <div 
           className="fixed z-50 transition-all duration-1000 ease-in-out pointer-events-none transform scale-75 md:scale-100"
           style={{ 
@@ -125,11 +132,11 @@ export default function ProposalPage() {
 
       <div className="max-w-2xl w-full text-center space-y-8 md:space-y-12 z-10">
         <div className="space-y-4 md:space-y-6">
-          {creatureStatus === 'neutral' && (
+          {girlStatus === 'neutral' && (
             <Creature type="girl" status="neutral" className="mb-4 md:mb-8 scale-90 md:scale-100" />
           )}
           
-          {creatureStatus === 'crying' && (
+          {girlStatus === 'crying' && (
             <div className="h-[120px] md:h-[150px] mb-4 md:mb-8" />
           )}
 
