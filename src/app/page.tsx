@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { HeartIcon } from "@/components/ui/heart-icon";
 import { Celebration } from "@/components/celebration";
+import { Creature } from "@/components/creature";
 
 export default function ProposalPage() {
   const [noClicks, setNoClicks] = useState(0);
@@ -24,12 +25,18 @@ export default function ProposalPage() {
   const noScale = Math.max(0, 1 - (noClicks * 0.33));
   const noVisible = noClicks < 3;
 
+  const creatureStatus = isAccepted 
+    ? 'dancing' 
+    : noClicks > 0 
+    ? 'crying' 
+    : 'neutral';
+
   if (isAccepted) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center bg-background animate-in fade-in duration-1000">
         <Celebration />
         <div className="max-w-md space-y-8 animate-float">
-          <HeartIcon className="w-32 h-32 mx-auto text-primary animate-heart-beat drop-shadow-[0_0_20px_rgba(184,20,77,0.5)]" />
+          <Creature status="dancing" className="scale-150 mb-12" />
           <h1 className="text-5xl md:text-7xl font-headline font-bold text-foreground">
             I Knew You'd Say Yes!
           </h1>
@@ -37,8 +44,10 @@ export default function ProposalPage() {
             "I love you more than words can say. <br />
             Our adventure starts now, forever."
           </p>
-          <div className="pt-10">
-            <span className="text-4xl">❤️💍🌹</span>
+          <div className="pt-10 flex justify-center gap-4">
+            <HeartIcon className="w-12 h-12 text-primary animate-heart-beat" />
+            <span className="text-4xl">💍🌹</span>
+            <HeartIcon className="w-12 h-12 text-primary animate-heart-beat" style={{ animationDelay: '0.5s' }} />
           </div>
         </div>
       </div>
@@ -49,7 +58,7 @@ export default function ProposalPage() {
     <div className="min-h-screen flex items-center justify-center p-6 bg-background">
       <div className="max-w-2xl w-full text-center space-y-12">
         <div className="space-y-6">
-          <HeartIcon className="w-16 h-16 mx-auto text-primary/40 animate-pulse" />
+          <Creature status={creatureStatus} className="mb-8" />
           <h1 className="text-4xl md:text-6xl font-headline font-semibold text-foreground leading-tight px-4">
             Do you love me? <br />
             <span className="text-primary">Want to marry me??</span>

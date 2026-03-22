@@ -99,6 +99,21 @@ export default {
         'confetti-fall': {
           '0%': { transform: 'translateY(-100vh) rotate(0deg)', opacity: '1' },
           '100%': { transform: 'translateY(100vh) rotate(360deg)', opacity: '0' },
+        },
+        'shake': {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '25%': { transform: 'translateX(-4px)' },
+          '75%': { transform: 'translateX(4px)' },
+        },
+        'dance': {
+          '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+          '25%': { transform: 'translateY(-15px) rotate(-8deg)' },
+          '50%': { transform: 'translateY(0) rotate(0deg)' },
+          '75%': { transform: 'translateY(-15px) rotate(8deg)' },
+        },
+        'tear-drop': {
+          '0%': { transform: 'translateY(0) scale(1)', opacity: '1' },
+          '100%': { transform: 'translateY(20px) scale(0.5)', opacity: '0' },
         }
       },
       animation: {
@@ -107,6 +122,9 @@ export default {
         'float': 'float 3s ease-in-out infinite',
         'heart-beat': 'heart-beat 1s ease-in-out infinite',
         'confetti': 'confetti-fall 3s linear forwards',
+        'shake': 'shake 0.2s ease-in-out infinite',
+        'dance': 'dance 0.8s ease-in-out infinite',
+        'tear': 'tear-drop 1s linear infinite',
       },
     },
   },
