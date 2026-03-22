@@ -32,117 +32,135 @@ export function Creature({ status, className }: CreatureProps) {
           xmlns="http://www.w3.org/2000/svg"
           className="drop-shadow-2xl w-[100px] h-[130px] md:w-[140px] md:h-[180px]"
         >
-          {/* Hair - Back layer */}
+          {/* Hair - Back layer with texture */}
           <path
             d="M35 45C35 25 50 15 70 15C90 15 105 25 105 45V75H35V45Z"
-            fill="#4B2C20"
+            fill="#3D2419"
           />
           
-          {/* Pigtails */}
-          <g className={cn(status === 'dancing' && "animate-bounce")}>
-            <circle cx="30" cy="45" r="12" fill="#4B2C20" />
-            <circle cx="110" cy="45" r="12" fill="#4B2C20" />
-            <circle cx="30" cy="45" r="4" fill="#CC4CB2" />
-            <circle cx="110" cy="45" r="4" fill="#CC4CB2" />
+          {/* Pigtails with movement */}
+          <g className={cn(
+            status === 'dancing' && "animate-bounce",
+            status === 'crying' && "animate-float"
+          )}>
+            <circle cx="30" cy="45" r="14" fill="#3D2419" />
+            <circle cx="110" cy="45" r="14" fill="#3D2419" />
+            <path d="M20 45C20 60 30 70 35 70" stroke="#3D2419" strokeWidth="4" strokeLinecap="round" />
+            <path d="M120 45C120 60 110 70 105 70" stroke="#3D2419" strokeWidth="4" strokeLinecap="round" />
+            {/* Ribbons */}
+            <circle cx="30" cy="45" r="5" fill="#CC4CB2" />
+            <circle cx="110" cy="45" r="5" fill="#CC4CB2" />
           </g>
 
           {/* Head / Face */}
           <circle 
-            cx="70" cy="50" r="28" 
+            cx="70" cy="50" r="30" 
             fill={status === 'crying' ? '#FFF5F5' : '#FFEDD5'} 
-            stroke="#4B2C20" 
+            stroke="#3D2419" 
             strokeWidth="1.5" 
           />
           
           {/* Blush */}
-          {status !== 'crying' && (
+          {(status === 'neutral' || status === 'dancing') && (
             <>
-              <circle cx="52" cy="58" r="4" fill="#FFB6C1" opacity="0.6" />
-              <circle cx="88" cy="58" r="4" fill="#FFB6C1" opacity="0.6" />
+              <circle cx="50" cy="60" r="5" fill="#FFB6C1" opacity="0.6" />
+              <circle cx="90" cy="60" r="5" fill="#FFB6C1" opacity="0.6" />
             </>
           )}
 
-          {/* Eyes */}
+          {/* Eyes - More Detailed */}
           {status === 'crying' ? (
             <>
-              <path d="M58 48L64 54" stroke="#4B5563" strokeWidth="3" strokeLinecap="round" />
-              <path d="M76 54L82 48" stroke="#4B5563" strokeWidth="3" strokeLinecap="round" />
+              <path d="M55 52C55 52 60 48 65 52" stroke="#4B5563" strokeWidth="3" strokeLinecap="round" fill="none" />
+              <path d="M75 52C75 52 80 48 85 52" stroke="#4B5563" strokeWidth="3" strokeLinecap="round" fill="none" />
             </>
           ) : (
             <>
-              <circle cx="58" cy="50" r="3.5" fill="#333" />
-              <circle cx="82" cy="50" r="3.5" fill="#333" />
-              <circle cx="59" cy="48.5" r="1" fill="white" />
-              <circle cx="83" cy="48.5" r="1" fill="white" />
+              <g className={status === 'dancing' ? 'animate-pulse' : ''}>
+                <circle cx="56" cy="52" r="4.5" fill="#1A1A1A" />
+                <circle cx="84" cy="52" r="4.5" fill="#1A1A1A" />
+                <circle cx="57.5" cy="50" r="1.5" fill="white" />
+                <circle cx="85.5" cy="50" r="1.5" fill="white" />
+              </g>
             </>
           )}
 
           {/* Mouth */}
           {status === 'crying' ? (
-            <path d="M65 65C65 65 68 62 70 62C72 62 75 65 75 65" stroke="#4B5563" strokeWidth="2.5" strokeLinecap="round" />
+            <path d="M62 68C62 68 66 64 70 64C74 64 78 68 78 68" stroke="#4B5563" strokeWidth="3" strokeLinecap="round" />
           ) : status === 'dancing' ? (
-            <path d="M62 62C62 68 78 68 78 62" fill="#B8144D" />
+            <path d="M60 65C60 72 80 72 80 65" fill="#B8144D" />
           ) : (
-            <path d="M66 64C66 64 68 66 70 66C72 66 74 64 74 64" stroke="#333" strokeWidth="2" strokeLinecap="round" />
+            <path d="M65 66C65 66 68 69 70 69C72 69 75 66 75 66" stroke="#1A1A1A" strokeWidth="2" strokeLinecap="round" />
           )}
 
-          {/* Hair - Front (Bangs) */}
+          {/* Hair - Front (Bangs) with more shape */}
           <path
-            d="M42 45C42 35 50 25 70 25C90 25 98 35 98 45C98 45 85 40 70 40C55 40 42 45 42 45Z"
-            fill="#4B2C20"
+            d="M40 45C40 30 50 22 70 22C90 22 100 30 100 45C100 45 85 38 70 38C55 38 40 45 40 45Z"
+            fill="#3D2419"
           />
 
-          {/* Dress */}
+          {/* Dress - Better Silhouette */}
           <path
-            d="M50 78L40 135H100L90 78H50Z"
-            fill={status === 'crying' ? '#D1D5DB' : '#CC4CB2'}
+            d="M52 80L38 140H102L88 80H52Z"
+            fill={status === 'crying' ? '#E5E7EB' : '#CC4CB2'}
             stroke={status === 'crying' ? '#9CA3AF' : '#B8144D'}
             strokeWidth="2"
           />
-          <path d="M60 78L70 85L80 78" stroke="white" strokeWidth="2" fill="none" />
+          {/* Dress Detail */}
+          <path d="M52 80Q70 95 88 80" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
+          <circle cx="70" cy="110" r="3" fill="white" opacity="0.5" />
+          <circle cx="55" cy="125" r="2" fill="white" opacity="0.3" />
+          <circle cx="85" cy="125" r="2" fill="white" opacity="0.3" />
 
           {/* Arms */}
           {status === 'dancing' ? (
             <>
-              <path d="M50 90C35 80 25 75 20 80" stroke="#FFEDD5" strokeWidth="7" strokeLinecap="round" />
-              <path d="M90 90C105 80 115 75 120 80" stroke="#FFEDD5" strokeWidth="7" strokeLinecap="round" />
+              <path d="M52 95C35 85 25 80 18 85" stroke="#FFEDD5" strokeWidth="8" strokeLinecap="round" className="animate-float" />
+              <path d="M88 95C105 85 115 80 122 85" stroke="#FFEDD5" strokeWidth="8" strokeLinecap="round" className="animate-float" style={{ animationDelay: '0.2s' }} />
             </>
           ) : status === 'crying' ? (
             <>
-              <path d="M50 90C45 80 50 65 55 60" stroke="#FFEDD5" strokeWidth="7" strokeLinecap="round" />
-              <path d="M90 90C95 80 90 65 85 60" stroke="#FFEDD5" strokeWidth="7" strokeLinecap="round" />
+              <path d="M52 95C45 85 50 70 55 65" stroke="#FFEDD5" strokeWidth="8" strokeLinecap="round" />
+              <path d="M88 95C95 85 90 70 85 65" stroke="#FFEDD5" strokeWidth="8" strokeLinecap="round" />
             </>
           ) : (
             <>
-              <path d="M50 90C45 100 45 115 48 125" stroke="#FFEDD5" strokeWidth="7" strokeLinecap="round" />
-              <path d="M90 90C95 100 95 115 92 125" stroke="#FFEDD5" strokeWidth="7" strokeLinecap="round" />
+              <path d="M52 95C48 105 48 120 50 130" stroke="#FFEDD5" strokeWidth="8" strokeLinecap="round" />
+              <path d="M88 95C92 105 92 120 90 130" stroke="#FFEDD5" strokeWidth="8" strokeLinecap="round" />
             </>
           )}
 
-          {/* Legs */}
-          <path d="M55 135V160" stroke="#333" strokeWidth="7" strokeLinecap="round" />
-          <path d="M85 135V160" stroke="#333" strokeWidth="7" strokeLinecap="round" />
-          <rect x="48" y="155" width="14" height="6" rx="3" fill="#333" />
-          <rect x="78" y="155" width="14" height="6" rx="3" fill="#333" />
+          {/* Legs with Specific Running Animation */}
+          <g className={cn(status === 'crying' && "animate-run-legs")}>
+            <g className={cn(status === 'crying' && "animate-leg-left")}>
+              <path d="M58 140V165" stroke="#333" strokeWidth="8" strokeLinecap="round" />
+              <rect x="50" y="160" width="16" height="7" rx="3.5" fill="#333" />
+            </g>
+            <g className={cn(status === 'crying' && "animate-leg-right")}>
+              <path d="M82 140V165" stroke="#333" strokeWidth="8" strokeLinecap="round" />
+              <rect x="74" y="160" width="16" height="7" rx="3.5" fill="#333" />
+            </g>
+          </g>
 
           {/* Flower (Only when dancing) */}
           {status === 'dancing' && (
             <g transform="translate(120, 65) rotate(15)">
-              <rect x="2" y="10" width="2" height="18" fill="#059669" />
-              <circle cx="3" cy="5" r="6" fill="#FDE047" />
-              <circle cx="3" cy="-1" r="5" fill="#FFF" />
-              <circle cx="9" cy="5" r="5" fill="#FFF" />
-              <circle cx="3" cy="11" r="5" fill="#FFF" />
-              <circle cx="-3" cy="5" r="5" fill="#FFF" />
+              <rect x="2" y="10" width="2" height="20" fill="#059669" />
+              <circle cx="3" cy="5" r="7" fill="#FDE047" />
+              <circle cx="3" cy="-2" r="6" fill="#FFF" />
+              <circle cx="10" cy="5" r="6" fill="#FFF" />
+              <circle cx="3" cy="12" r="6" fill="#FFF" />
+              <circle cx="-4" cy="5" r="6" fill="#FFF" />
             </g>
           )}
         </svg>
       </div>
 
       <div className="mt-4 md:mt-8 font-body italic text-lg md:text-xl text-foreground/80 text-center px-4 max-w-[250px]">
-        {status === 'crying' && "Please don't be mean to me... 🥺"}
-        {status === 'dancing' && "I'm the luckiest girl in the world! 🌸"}
-        {status === 'neutral' && "I have a special question for you... 👉👈"}
+        {status === 'crying' && "Wait! Why are you running away? 🥺"}
+        {status === 'dancing' && "My heart is dancing with you! 🌸"}
+        {status === 'neutral' && "I have a special question... 👉👈"}
       </div>
     </div>
   );

@@ -114,6 +114,18 @@ export default {
         'tear-drop': {
           '0%': { transform: 'translateY(0) scale(1)', opacity: '1' },
           '100%': { transform: 'translateY(20px) scale(0.5)', opacity: '0' },
+        },
+        'leg-left': {
+          '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+          '50%': { transform: 'translateY(-10px) rotate(-15deg)' },
+        },
+        'leg-right': {
+          '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+          '50%': { transform: 'translateY(-10px) rotate(15deg)' },
+        },
+        'run-container': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-5px)' },
         }
       },
       animation: {
@@ -125,6 +137,9 @@ export default {
         'shake': 'shake 0.2s ease-in-out infinite',
         'dance': 'dance 0.8s ease-in-out infinite',
         'tear': 'tear-drop 1s linear infinite',
+        'leg-left': 'leg-left 0.2s ease-in-out infinite',
+        'leg-right': 'leg-right 0.2s ease-in-out infinite 0.1s',
+        'run-legs': 'run-container 0.2s ease-in-out infinite',
       },
     },
   },
