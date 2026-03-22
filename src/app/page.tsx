@@ -11,6 +11,16 @@ export default function ProposalPage() {
   const [noClicks, setNoClicks] = useState(0);
   const [isAccepted, setIsAccepted] = useState(false);
   const [creaturePos, setCreaturePos] = useState<{ x: number; y: number } | null>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  // Mouse tracking for the Boy Cursor
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   // Handle the random movement of the crying creature
   useEffect(() => {
@@ -18,11 +28,9 @@ export default function ProposalPage() {
       const moveCreature = () => {
         if (typeof window === 'undefined') return;
         
-        // Boundaries: Creature is approx 120x150 scaled
         const maxX = window.innerWidth - 140;
         const maxY = window.innerHeight - 180;
         
-        // Clamp values to ensure it stays on screen
         const randomX = Math.max(10, Math.random() * maxX);
         const randomY = Math.max(10, Math.random() * maxY);
         
@@ -48,8 +56,7 @@ export default function ProposalPage() {
     setIsAccepted(true);
   };
 
-  // Scaling logic
-  const yesScale = 1 + (noClicks * 0.4); // Slightly less aggressive for mobile fit
+  const yesScale = 1 + (noClicks * 0.4);
   const noScale = Math.max(0, 1 - (noClicks * 0.33));
   const noVisible = noClicks < 3;
 
@@ -63,8 +70,20 @@ export default function ProposalPage() {
     return (
       <div className="min-h-[100dvh] flex flex-col items-center justify-center p-4 text-center bg-background animate-in fade-in duration-1000 relative overflow-hidden">
         <Celebration />
+        {/* Boy character follows mouse even on success page, but in "dancing" mode */}
+        <div 
+          className="fixed pointer-events-none z-[100] transition-all duration-300 ease-out hidden md:block"
+          style={{ 
+            left: `${mousePos.x}px`, 
+            top: `${mousePos.y}px`,
+            transform: 'translate(-50%, -50%) scale(0.6)'
+          }}
+        >
+          <Creature type="boy" status="dancing" />
+        </div>
+
         <div className="max-w-lg w-full space-y-6 md:space-y-8 animate-float px-4">
-          <Creature status="dancing" className="scale-110 md:scale-150 mb-6 md:mb-12" />
+          <Creature type="girl" status="dancing" className="scale-110 md:scale-150 mb-6 md:mb-12" />
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-headline font-bold text-foreground leading-tight">
             I Knew You'd Say Yes!
           </h1>
@@ -83,8 +102,20 @@ export default function ProposalPage() {
   }
 
   return (
-    <div className="min-h-[100dvh] flex items-center justify-center p-4 bg-background relative overflow-hidden selection:bg-accent/20">
-      {/* Randomly moving crying creature */}
+    <div className="min-h-[100dvh] flex items-center justify-center p-4 bg-background relative overflow-hidden selection:bg-accent/20 cursor-none">
+      {/* Boy Character Cursor */}
+      <div 
+        className="fixed pointer-events-none z-[100] transition-all duration-150 ease-out hidden md:block"
+        style={{ 
+          left: `${mousePos.x}px`, 
+          top: `${mousePos.y}px`,
+          transform: `translate(-50%, -50%) scale(0.5)`
+        }}
+      >
+        <Creature type="boy" status={creatureStatus === 'crying' ? 'crying' : 'neutral'} />
+      </div>
+
+      {/* Randomly moving crying girl */}
       {creatureStatus === 'crying' && creaturePos && (
         <div 
           className="fixed z-50 transition-all duration-1000 ease-in-out pointer-events-none transform scale-75 md:scale-100"
@@ -93,18 +124,16 @@ export default function ProposalPage() {
             top: `${creaturePos.y}px` 
           }}
         >
-          <Creature status="crying" />
+          <Creature type="girl" status="crying" />
         </div>
       )}
 
       <div className="max-w-2xl w-full text-center space-y-8 md:space-y-12 z-10">
         <div className="space-y-4 md:space-y-6">
-          {/* Neutral creature stays in the layout flow */}
           {creatureStatus === 'neutral' && (
-            <Creature status="neutral" className="mb-4 md:mb-8 scale-90 md:scale-100" />
+            <Creature type="girl" status="neutral" className="mb-4 md:mb-8 scale-90 md:scale-100" />
           )}
           
-          {/* Placeholder to keep title position stable */}
           {creatureStatus === 'crying' && (
             <div className="h-[120px] md:h-[150px] mb-4 md:mb-8" />
           )}
@@ -120,7 +149,7 @@ export default function ProposalPage() {
             size="lg"
             onClick={handleYesClick}
             className={cn(
-              "bg-accent hover:bg-accent/90 text-white font-headline rounded-full shadow-2xl transition-all duration-500 transform active:scale-95 z-10",
+              "bg-accent hover:bg-accent/90 text-white font-headline rounded-full shadow-2xl transition-all duration-500 transform active:scale-95 z-10 cursor-pointer",
               "text-xl sm:text-2xl px-10 sm:px-12 py-6 sm:py-8 h-auto"
             )}
             style={{ 
@@ -136,7 +165,7 @@ export default function ProposalPage() {
               variant="outline"
               size="lg"
               onClick={handleNoClick}
-              className="border-primary/50 text-muted-foreground font-headline rounded-full transition-all duration-300 transform h-auto py-3 sm:py-4 px-6 sm:px-8 text-base sm:text-lg"
+              className="border-primary/50 text-muted-foreground font-headline rounded-full transition-all duration-300 transform h-auto py-3 sm:py-4 px-6 sm:px-8 text-base sm:text-lg cursor-pointer"
               style={{ 
                 transform: `scale(${noScale})`,
                 opacity: noScale 
@@ -148,7 +177,7 @@ export default function ProposalPage() {
         </div>
 
         <div className="text-muted-foreground/30 font-body text-xs sm:text-sm pt-4 md:pt-8 px-4">
-          Made with love, specifically for you.
+          He's following you everywhere...
         </div>
       </div>
     </div>

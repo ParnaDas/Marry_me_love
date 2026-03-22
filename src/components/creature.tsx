@@ -5,10 +5,13 @@ import { cn } from '@/lib/utils';
 
 interface CreatureProps {
   status: 'neutral' | 'crying' | 'dancing';
+  type?: 'girl' | 'boy';
   className?: string;
 }
 
-export function Creature({ status, className }: CreatureProps) {
+export function Creature({ status, type = 'girl', className }: CreatureProps) {
+  const isBoy = type === 'boy';
+
   return (
     <div className={cn("relative flex flex-col items-center select-none", className)}>
       {/* Tears overlay for crying state */}
@@ -34,38 +37,42 @@ export function Creature({ status, className }: CreatureProps) {
         >
           <defs>
             <linearGradient id="hairGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#4A2B1F" />
-              <stop offset="100%" stopColor="#2D1A12" />
+              <stop offset="0%" stopColor={isBoy ? "#2D1A12" : "#4A2B1F"} />
+              <stop offset="100%" stopColor="#1A0D08" />
             </linearGradient>
             <linearGradient id="skinGradient" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="#FFEDD5" />
               <stop offset="100%" stopColor="#FED7AA" />
             </linearGradient>
-            <linearGradient id="dressGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#D946EF" />
-              <stop offset="100%" stopColor="#A21CAF" />
+            <linearGradient id="clothesGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor={isBoy ? "#3B82F6" : "#D946EF"} />
+              <stop offset="100%" stopColor={isBoy ? "#1E40AF" : "#A21CAF"} />
             </linearGradient>
           </defs>
 
           {/* Hair - Back Layer */}
-          <path
-            d="M40 50C40 30 55 20 80 20C105 20 120 30 120 50V85H40V50Z"
-            fill="url(#hairGradient)"
-          />
-          
-          {/* Pigtails with movement */}
-          <g className={cn(
-            status === 'dancing' && "animate-bounce",
-            status === 'crying' && "animate-float"
-          )}>
-            {/* Left Pigtail */}
-            <path d="M25 50C15 50 10 70 25 85C30 85 35 75 35 60" fill="url(#hairGradient)" />
-            <circle cx="35" cy="55" r="6" fill="#F472B6" /> {/* Ribbon */}
-            
-            {/* Right Pigtail */}
-            <path d="M135 50C145 50 150 70 135 85C130 85 125 75 125 60" fill="url(#hairGradient)" />
-            <circle cx="125" cy="55" r="6" fill="#F472B6" /> {/* Ribbon */}
-          </g>
+          {isBoy ? (
+            <path
+              d="M45 40C45 25 60 15 80 15C100 15 115 25 115 40V65H45V40Z"
+              fill="url(#hairGradient)"
+            />
+          ) : (
+            <>
+              <path
+                d="M40 50C40 30 55 20 80 20C105 20 120 30 120 50V85H40V50Z"
+                fill="url(#hairGradient)"
+              />
+              <g className={cn(
+                status === 'dancing' && "animate-bounce",
+                status === 'crying' && "animate-float"
+              )}>
+                <path d="M25 50C15 50 10 70 25 85C30 85 35 75 35 60" fill="url(#hairGradient)" />
+                <circle cx="35" cy="55" r="6" fill="#F472B6" />
+                <path d="M135 50C145 50 150 70 135 85C130 85 125 75 125 60" fill="url(#hairGradient)" />
+                <circle cx="125" cy="55" r="6" fill="#F472B6" />
+              </g>
+            </>
+          )}
 
           {/* Neck */}
           <rect x="74" y="80" width="12" height="10" fill="#FED7AA" />
@@ -97,19 +104,12 @@ export function Creature({ status, className }: CreatureProps) {
               <path d="M82 58Q90 52 98 58" stroke="#4B5563" strokeWidth="3" strokeLinecap="round" fill="none" />
             </>
           ) : (
-            <>
-              <g className={cn("origin-center", status === 'dancing' ? 'animate-pulse' : 'animate-blink')}>
-                {/* Left Eye */}
-                <circle cx="65" cy="58" r="6" fill="#1A1A1A" />
-                <circle cx="67" cy="56" r="2.5" fill="white" /> {/* Reflection */}
-                <path d="M58 52Q65 48 72 52" stroke="#1A1A1A" strokeWidth="1" fill="none" /> {/* Eyelashes area */}
-                
-                {/* Right Eye */}
-                <circle cx="95" cy="58" r="6" fill="#1A1A1A" />
-                <circle cx="97" cy="56" r="2.5" fill="white" /> {/* Reflection */}
-                <path d="M88 52Q95 48 102 52" stroke="#1A1A1A" strokeWidth="1" fill="none" /> {/* Eyelashes area */}
-              </g>
-            </>
+            <g className={cn("origin-center", status === 'dancing' ? 'animate-pulse' : 'animate-blink')}>
+              <circle cx="65" cy="58" r="6" fill="#1A1A1A" />
+              <circle cx="67" cy="56" r="2.5" fill="white" />
+              <circle cx="95" cy="58" r="6" fill="#1A1A1A" />
+              <circle cx="97" cy="56" r="2.5" fill="white" />
+            </g>
           )}
 
           {/* Nose */}
@@ -119,29 +119,40 @@ export function Creature({ status, className }: CreatureProps) {
           {status === 'crying' ? (
             <path d="M70 75Q80 70 90 75" stroke="#4B5563" strokeWidth="3" strokeLinecap="round" />
           ) : status === 'dancing' ? (
-            <path d="M72 72Q80 82 88 72" fill="#BE185D" />
+            <path d="M72 72Q80 82 88 72" fill={isBoy ? "#1E40AF" : "#BE185D"} />
           ) : (
             <path d="M75 74Q80 76 85 74" stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" />
           )}
 
-          {/* Hair - Front (Bangs) */}
-          <path
-            d="M45 50C45 35 55 25 80 25C105 25 115 35 115 50C115 50 100 42 80 42C60 42 45 50 45 50Z"
-            fill="url(#hairGradient)"
-          />
-          <path d="M75 25Q80 35 85 25" stroke="#5D3A29" strokeWidth="1" fill="none" opacity="0.5" />
+          {/* Hair - Front */}
+          {isBoy ? (
+            <path
+              d="M45 40C45 30 55 20 80 20C105 20 115 30 115 40C115 40 100 35 80 35C60 35 45 40 45 40Z"
+              fill="url(#hairGradient)"
+            />
+          ) : (
+            <path
+              d="M45 50C45 35 55 25 80 25C105 25 115 35 115 50C115 50 100 42 80 42C60 42 45 50 45 50Z"
+              fill="url(#hairGradient)"
+            />
+          )}
 
-          {/* Dress */}
-          <path
-            d="M60 90L45 150H115L100 90H60Z"
-            fill={status === 'crying' ? '#F3F4F6' : 'url(#dressGradient)'}
-            stroke={status === 'crying' ? '#9CA3AF' : '#86198F'}
-            strokeWidth="1.5"
-          />
-          {/* Dress Details - Collar */}
-          <path d="M60 90Q80 105 100 90" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
-          <circle cx="80" cy="115" r="3" fill="white" opacity="0.4" />
-          <circle cx="80" cy="130" r="3" fill="white" opacity="0.4" />
+          {/* Torso */}
+          {isBoy ? (
+            <path
+              d="M55 90H105V150H55V90Z"
+              fill="url(#clothesGradient)"
+              stroke="#1E3A8A"
+              strokeWidth="1.5"
+            />
+          ) : (
+            <path
+              d="M60 90L45 150H115L100 90H60Z"
+              fill={status === 'crying' ? '#F3F4F6' : 'url(#clothesGradient)'}
+              stroke={status === 'crying' ? '#9CA3AF' : '#86198F'}
+              strokeWidth="1.5"
+            />
+          )}
 
           {/* Arms */}
           {status === 'dancing' ? (
@@ -161,19 +172,19 @@ export function Creature({ status, className }: CreatureProps) {
             </>
           )}
 
-          {/* Legs with Specific Running Animation */}
+          {/* Legs */}
           <g className={cn(status === 'crying' && "animate-run-legs")}>
             <g className={cn(status === 'crying' && "animate-leg-left")}>
-              <path d="M68 150V175" stroke="#374151" strokeWidth="8" strokeLinecap="round" />
-              <rect x="60" y="172" width="18" height="8" rx="4" fill="#1F2937" /> {/* Shoe */}
+              <path d="M68 150V180" stroke="#374151" strokeWidth="8" strokeLinecap="round" />
+              <rect x="60" y="176" width="18" height="8" rx="4" fill="#1F2937" />
             </g>
             <g className={cn(status === 'crying' && "animate-leg-right")}>
-              <path d="M92 150V175" stroke="#374151" strokeWidth="8" strokeLinecap="round" />
-              <rect x="84" y="172" width="18" height="8" rx="4" fill="#1F2937" /> {/* Shoe */}
+              <path d="M92 150V180" stroke="#374151" strokeWidth="8" strokeLinecap="round" />
+              <rect x="84" y="176" width="18" height="8" rx="4" fill="#1F2937" />
             </g>
           </g>
 
-          {/* Flower (Only when dancing) */}
+          {/* Flower / Special Item */}
           {status === 'dancing' && (
             <g transform="translate(135, 75) rotate(15)">
               <rect x="2" y="10" width="2" height="25" fill="#10B981" />
@@ -184,13 +195,19 @@ export function Creature({ status, className }: CreatureProps) {
               <circle cx="-5" cy="5" r="7" fill="#FFF" />
             </g>
           )}
+          {isBoy && status === 'neutral' && (
+             <g transform="translate(115, 125) rotate(-15)">
+                <circle cx="0" cy="0" r="4" fill="#FFD700" stroke="#B8860B" />
+                <path d="M0 -4 L0 -8" stroke="#B8860B" strokeWidth="1" />
+             </g>
+          )}
         </svg>
       </div>
 
       <div className="mt-4 md:mt-8 font-body italic text-lg md:text-xl text-foreground/90 text-center px-4 max-w-[280px] drop-shadow-sm">
         {status === 'crying' && "Wait! Why are you running away? 🥺"}
-        {status === 'dancing' && "My heart is dancing with you! 🌸"}
-        {status === 'neutral' && "I have a special question... 👉👈"}
+        {status === 'dancing' && (isBoy ? "She said YES! My heart is full! 🌟" : "My heart is dancing with you! 🌸")}
+        {status === 'neutral' && (isBoy ? "I'm so nervous... 💍" : "I have a special question... 👉👈")}
       </div>
     </div>
   );
