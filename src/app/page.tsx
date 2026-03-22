@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState, useEffect } from 'react';
@@ -6,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { HeartIcon } from "@/components/ui/heart-icon";
 import { Celebration } from "@/components/celebration";
 import { Creature } from "@/components/creature";
+import { cn } from "@/lib/utils";
 
 export default function ProposalPage() {
   const [noClicks, setNoClicks] = useState(0);
@@ -16,19 +16,21 @@ export default function ProposalPage() {
   useEffect(() => {
     if (noClicks > 0 && !isAccepted) {
       const moveCreature = () => {
-        // Ensure we stay within screen bounds minus creature approximate size
-        const maxX = typeof window !== 'undefined' ? window.innerWidth - 120 : 0;
-        const maxY = typeof window !== 'undefined' ? window.innerHeight - 120 : 0;
+        if (typeof window === 'undefined') return;
         
-        const randomX = Math.random() * maxX;
-        const randomY = Math.random() * maxY;
+        // Boundaries: Creature is approx 120x150 scaled
+        const maxX = window.innerWidth - 140;
+        const maxY = window.innerHeight - 180;
+        
+        // Clamp values to ensure it stays on screen
+        const randomX = Math.max(10, Math.random() * maxX);
+        const randomY = Math.max(10, Math.random() * maxY);
         
         setCreaturePos({ x: randomX, y: randomY });
       };
 
-      // Set initial random position and then interval
       moveCreature();
-      const interval = setInterval(moveCreature, 1200); // Move every 1.2s for "running" feel
+      const interval = setInterval(moveCreature, 1500); 
       
       return () => clearInterval(interval);
     } else {
@@ -46,8 +48,8 @@ export default function ProposalPage() {
     setIsAccepted(true);
   };
 
-  // Aggressive scaling so YES grows significantly as NO shrinks
-  const yesScale = 1 + (noClicks * 0.6);
+  // Scaling logic
+  const yesScale = 1 + (noClicks * 0.4); // Slightly less aggressive for mobile fit
   const noScale = Math.max(0, 1 - (noClicks * 0.33));
   const noVisible = noClicks < 3;
 
@@ -59,21 +61,21 @@ export default function ProposalPage() {
 
   if (isAccepted) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center bg-background animate-in fade-in duration-1000 relative overflow-hidden">
+      <div className="min-h-[100dvh] flex flex-col items-center justify-center p-4 text-center bg-background animate-in fade-in duration-1000 relative overflow-hidden">
         <Celebration />
-        <div className="max-w-md space-y-8 animate-float">
-          <Creature status="dancing" className="scale-150 mb-12" />
-          <h1 className="text-5xl md:text-7xl font-headline font-bold text-foreground">
+        <div className="max-w-lg w-full space-y-6 md:space-y-8 animate-float px-4">
+          <Creature status="dancing" className="scale-110 md:scale-150 mb-6 md:mb-12" />
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-headline font-bold text-foreground leading-tight">
             I Knew You'd Say Yes!
           </h1>
-          <p className="text-2xl text-muted-foreground font-body italic leading-relaxed">
-            "I love you more than words can say. <br />
+          <p className="text-xl md:text-2xl text-muted-foreground font-body italic leading-relaxed">
+            "I love you more than words can say. <br className="hidden sm:block" />
             Our adventure starts now, forever."
           </p>
-          <div className="pt-10 flex justify-center gap-4">
-            <HeartIcon className="w-12 h-12 text-primary animate-heart-beat" />
-            <span className="text-4xl">💍🌹</span>
-            <HeartIcon className="w-12 h-12 text-primary animate-heart-beat" style={{ animationDelay: '0.5s' }} />
+          <div className="pt-6 md:pt-10 flex justify-center items-center gap-4">
+            <HeartIcon className="w-8 h-8 md:w-12 md:h-12 text-primary animate-heart-beat" />
+            <span className="text-3xl md:text-4xl">💍🌹</span>
+            <HeartIcon className="w-8 h-8 md:w-12 md:h-12 text-primary animate-heart-beat" style={{ animationDelay: '0.5s' }} />
           </div>
         </div>
       </div>
@@ -81,11 +83,11 @@ export default function ProposalPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-background relative overflow-hidden">
+    <div className="min-h-[100dvh] flex items-center justify-center p-4 bg-background relative overflow-hidden selection:bg-accent/20">
       {/* Randomly moving crying creature */}
       {creatureStatus === 'crying' && creaturePos && (
         <div 
-          className="fixed z-50 transition-all duration-1000 ease-in-out pointer-events-none"
+          className="fixed z-50 transition-all duration-1000 ease-in-out pointer-events-none transform scale-75 md:scale-100"
           style={{ 
             left: `${creaturePos.x}px`, 
             top: `${creaturePos.y}px` 
@@ -95,32 +97,35 @@ export default function ProposalPage() {
         </div>
       )}
 
-      <div className="max-w-2xl w-full text-center space-y-12 z-10">
-        <div className="space-y-6">
+      <div className="max-w-2xl w-full text-center space-y-8 md:space-y-12 z-10">
+        <div className="space-y-4 md:space-y-6">
           {/* Neutral creature stays in the layout flow */}
           {creatureStatus === 'neutral' && (
-            <Creature status="neutral" className="mb-8" />
+            <Creature status="neutral" className="mb-4 md:mb-8 scale-90 md:scale-100" />
           )}
           
-          {/* Placeholder to keep title position stable when creature starts running */}
+          {/* Placeholder to keep title position stable */}
           {creatureStatus === 'crying' && (
-            <div className="h-[150px] mb-8" />
+            <div className="h-[120px] md:h-[150px] mb-4 md:mb-8" />
           )}
 
-          <h1 className="text-4xl md:text-6xl font-headline font-semibold text-foreground leading-tight px-4">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-headline font-semibold text-foreground leading-tight px-2">
             Do you love me? <br />
             <span className="text-primary">Want to marry me??</span>
           </h1>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12 min-h-[250px]">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12 min-h-[180px] md:min-h-[250px] px-4">
           <Button
             size="lg"
             onClick={handleYesClick}
-            className="bg-accent hover:bg-accent/90 text-white font-headline text-2xl px-12 py-8 rounded-full shadow-2xl transition-all duration-500 transform active:scale-95 z-10"
+            className={cn(
+              "bg-accent hover:bg-accent/90 text-white font-headline rounded-full shadow-2xl transition-all duration-500 transform active:scale-95 z-10",
+              "text-xl sm:text-2xl px-10 sm:px-12 py-6 sm:py-8 h-auto"
+            )}
             style={{ 
               transform: `scale(${yesScale})`,
-              boxShadow: `0 0 ${noClicks * 15 + 25}px rgba(204, 76, 178, 0.4)` 
+              boxShadow: `0 0 ${noClicks * 10 + 20}px rgba(204, 76, 178, 0.4)` 
             }}
           >
             YES!
@@ -131,7 +136,7 @@ export default function ProposalPage() {
               variant="outline"
               size="lg"
               onClick={handleNoClick}
-              className="border-primary/50 text-muted-foreground font-headline text-lg px-8 py-4 rounded-full transition-all duration-300 transform"
+              className="border-primary/50 text-muted-foreground font-headline rounded-full transition-all duration-300 transform h-auto py-3 sm:py-4 px-6 sm:px-8 text-base sm:text-lg"
               style={{ 
                 transform: `scale(${noScale})`,
                 opacity: noScale 
@@ -142,7 +147,7 @@ export default function ProposalPage() {
           )}
         </div>
 
-        <div className="text-muted-foreground/30 font-body text-sm pt-8">
+        <div className="text-muted-foreground/30 font-body text-xs sm:text-sm pt-4 md:pt-8 px-4">
           Made with love, specifically for you.
         </div>
       </div>

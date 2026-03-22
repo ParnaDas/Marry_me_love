@@ -10,12 +10,12 @@ interface CreatureProps {
 
 export function Creature({ status, className }: CreatureProps) {
   return (
-    <div className={cn("relative flex flex-col items-center", className)}>
+    <div className={cn("relative flex flex-col items-center select-none", className)}>
       {/* Tears overlay for crying state */}
       {status === 'crying' && (
-        <div className="absolute top-12 w-full flex justify-center gap-10 z-20">
-          <div className="w-1.5 h-4 bg-blue-300 rounded-full animate-tear shadow-sm" />
-          <div className="w-1.5 h-4 bg-blue-300 rounded-full animate-tear shadow-sm" style={{ animationDelay: '0.4s' }} />
+        <div className="absolute top-10 md:top-12 w-full flex justify-center gap-8 md:gap-10 z-20">
+          <div className="w-1 md:w-1.5 h-3 md:h-4 bg-blue-300 rounded-full animate-tear shadow-sm" />
+          <div className="w-1 md:w-1.5 h-3 md:h-4 bg-blue-300 rounded-full animate-tear shadow-sm" style={{ animationDelay: '0.4s' }} />
         </div>
       )}
       
@@ -30,7 +30,7 @@ export function Creature({ status, className }: CreatureProps) {
           viewBox="0 0 140 180"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="drop-shadow-2xl"
+          className="drop-shadow-2xl w-[100px] h-[130px] md:w-[140px] md:h-[180px]"
         >
           {/* Hair - Back layer */}
           <path
@@ -42,7 +42,6 @@ export function Creature({ status, className }: CreatureProps) {
           <g className={cn(status === 'dancing' && "animate-bounce")}>
             <circle cx="30" cy="45" r="12" fill="#4B2C20" />
             <circle cx="110" cy="45" r="12" fill="#4B2C20" />
-            {/* Ribbons */}
             <circle cx="30" cy="45" r="4" fill="#CC4CB2" />
             <circle cx="110" cy="45" r="4" fill="#CC4CB2" />
           </g>
@@ -73,7 +72,6 @@ export function Creature({ status, className }: CreatureProps) {
             <>
               <circle cx="58" cy="50" r="3.5" fill="#333" />
               <circle cx="82" cy="50" r="3.5" fill="#333" />
-              {/* Eye shine */}
               <circle cx="59" cy="48.5" r="1" fill="white" />
               <circle cx="83" cy="48.5" r="1" fill="white" />
             </>
@@ -101,7 +99,6 @@ export function Creature({ status, className }: CreatureProps) {
             stroke={status === 'crying' ? '#9CA3AF' : '#B8144D'}
             strokeWidth="2"
           />
-          {/* Dress detail (Collar) */}
           <path d="M60 78L70 85L80 78" stroke="white" strokeWidth="2" fill="none" />
 
           {/* Arms */}
@@ -125,7 +122,6 @@ export function Creature({ status, className }: CreatureProps) {
           {/* Legs */}
           <path d="M55 135V160" stroke="#333" strokeWidth="7" strokeLinecap="round" />
           <path d="M85 135V160" stroke="#333" strokeWidth="7" strokeLinecap="round" />
-          {/* Shoes */}
           <rect x="48" y="155" width="14" height="6" rx="3" fill="#333" />
           <rect x="78" y="155" width="14" height="6" rx="3" fill="#333" />
 
@@ -143,7 +139,7 @@ export function Creature({ status, className }: CreatureProps) {
         </svg>
       </div>
 
-      <div className="mt-8 font-body italic text-xl text-foreground/80 text-center px-4">
+      <div className="mt-4 md:mt-8 font-body italic text-lg md:text-xl text-foreground/80 text-center px-4 max-w-[250px]">
         {status === 'crying' && "Please don't be mean to me... 🥺"}
         {status === 'dancing' && "I'm the luckiest girl in the world! 🌸"}
         {status === 'neutral' && "I have a special question for you... 👉👈"}
