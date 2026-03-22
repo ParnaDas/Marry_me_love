@@ -61,8 +61,9 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
           >
             <defs>
               <linearGradient id="hairGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor={isBoy ? "#000000" : "#3D2318"} />
-                <stop offset="100%" stopColor={isBoy ? "#0a0a0a" : "#1A0F0A"} />
+                {/* Both characters now have thick black hair */}
+                <stop offset="0%" stopColor="#000000" />
+                <stop offset="100%" stopColor="#1A1A1A" />
               </linearGradient>
               <linearGradient id="skinGradient" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="#FFEDD5" />
@@ -90,10 +91,11 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
                   isDancing && "animate-bounce",
                   (status === 'crying' || isKissing || isCuddling) && "animate-float"
                 )}>
-                  <path d="M25 50C15 50 10 70 25 85C30 85 35 75 35 60" fill="url(#hairGradient)" />
-                  <circle cx="35" cy="55" r="6" fill="#F472B6" />
-                  <path d="M135 50C145 50 150 70 135 85C130 85 125 75 125 60" fill="url(#hairGradient)" />
-                  <circle cx="125" cy="55" r="6" fill="#F472B6" />
+                  {/* Thicker pigtails for the girl */}
+                  <path d="M25 45C10 45 5 70 25 90C35 90 40 75 35 60" fill="url(#hairGradient)" />
+                  <circle cx="35" cy="55" r="7" fill="#F472B6" />
+                  <path d="M135 45C150 45 155 70 135 90C125 90 120 75 125 60" fill="url(#hairGradient)" />
+                  <circle cx="125" cy="55" r="7" fill="#F472B6" />
                 </g>
               </>
             )}
@@ -163,7 +165,7 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
                 <path d={isBoy ? "M75 64Q80 66 85 64" : "M75 74Q80 76 85 74"} stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" />
               )}
 
-              {/* Hair - Front (Thick and full for boy) */}
+              {/* Hair - Front (Thick black hair for both) */}
               {isBoy ? (
                 <path
                   d="M30 35C30 15 45 0 80 0C115 0 130 15 130 35C130 35 110 20 80 20C50 20 30 35 30 35Z"
@@ -171,7 +173,7 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
                 />
               ) : (
                 <path
-                  d="M45 50C45 35 55 25 80 25C105 25 115 35 115 50C115 50 100 42 80 42C60 42 45 50 45 50Z"
+                  d="M40 50C40 30 50 20 80 20C110 20 120 30 120 50C120 50 100 35 80 35C60 35 40 50 40 50Z"
                   fill="url(#hairGradient)"
                 />
               )}
