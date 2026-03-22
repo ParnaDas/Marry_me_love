@@ -13,9 +13,9 @@ export function Creature({ status, className }: CreatureProps) {
     <div className={cn("relative flex flex-col items-center select-none", className)}>
       {/* Tears overlay for crying state */}
       {status === 'crying' && (
-        <div className="absolute top-10 md:top-12 w-full flex justify-center gap-8 md:gap-10 z-20">
-          <div className="w-1 md:w-1.5 h-3 md:h-4 bg-blue-300 rounded-full animate-tear shadow-sm" />
-          <div className="w-1 md:w-1.5 h-3 md:h-4 bg-blue-300 rounded-full animate-tear shadow-sm" style={{ animationDelay: '0.4s' }} />
+        <div className="absolute top-12 md:top-14 w-full flex justify-center gap-10 md:gap-12 z-20">
+          <div className="w-1.5 md:w-2 h-4 md:h-5 bg-blue-300/80 rounded-full animate-tear shadow-sm" />
+          <div className="w-1.5 md:w-2 h-4 md:h-5 bg-blue-300/80 rounded-full animate-tear shadow-sm" style={{ animationDelay: '0.4s' }} />
         </div>
       )}
       
@@ -25,17 +25,32 @@ export function Creature({ status, className }: CreatureProps) {
         status === 'dancing' && "animate-dance"
       )}>
         <svg
-          width="140"
-          height="180"
-          viewBox="0 0 140 180"
+          width="160"
+          height="200"
+          viewBox="0 0 160 200"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="drop-shadow-2xl w-[100px] h-[130px] md:w-[140px] md:h-[180px]"
+          className="drop-shadow-2xl w-[110px] h-[140px] md:w-[160px] md:h-[200px]"
         >
-          {/* Hair - Back layer with texture */}
+          <defs>
+            <linearGradient id="hairGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#4A2B1F" />
+              <stop offset="100%" stopColor="#2D1A12" />
+            </linearGradient>
+            <linearGradient id="skinGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#FFEDD5" />
+              <stop offset="100%" stopColor="#FED7AA" />
+            </linearGradient>
+            <linearGradient id="dressGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#D946EF" />
+              <stop offset="100%" stopColor="#A21CAF" />
+            </linearGradient>
+          </defs>
+
+          {/* Hair - Back Layer */}
           <path
-            d="M35 45C35 25 50 15 70 15C90 15 105 25 105 45V75H35V45Z"
-            fill="#3D2419"
+            d="M40 50C40 30 55 20 80 20C105 20 120 30 120 50V85H40V50Z"
+            fill="url(#hairGradient)"
           />
           
           {/* Pigtails with movement */}
@@ -43,121 +58,136 @@ export function Creature({ status, className }: CreatureProps) {
             status === 'dancing' && "animate-bounce",
             status === 'crying' && "animate-float"
           )}>
-            <circle cx="30" cy="45" r="14" fill="#3D2419" />
-            <circle cx="110" cy="45" r="14" fill="#3D2419" />
-            <path d="M20 45C20 60 30 70 35 70" stroke="#3D2419" strokeWidth="4" strokeLinecap="round" />
-            <path d="M120 45C120 60 110 70 105 70" stroke="#3D2419" strokeWidth="4" strokeLinecap="round" />
-            {/* Ribbons */}
-            <circle cx="30" cy="45" r="5" fill="#CC4CB2" />
-            <circle cx="110" cy="45" r="5" fill="#CC4CB2" />
+            {/* Left Pigtail */}
+            <path d="M25 50C15 50 10 70 25 85C30 85 35 75 35 60" fill="url(#hairGradient)" />
+            <circle cx="35" cy="55" r="6" fill="#F472B6" /> {/* Ribbon */}
+            
+            {/* Right Pigtail */}
+            <path d="M135 50C145 50 150 70 135 85C130 85 125 75 125 60" fill="url(#hairGradient)" />
+            <circle cx="125" cy="55" r="6" fill="#F472B6" /> {/* Ribbon */}
           </g>
+
+          {/* Neck */}
+          <rect x="74" y="80" width="12" height="10" fill="#FED7AA" />
 
           {/* Head / Face */}
           <circle 
-            cx="70" cy="50" r="30" 
-            fill={status === 'crying' ? '#FFF5F5' : '#FFEDD5'} 
-            stroke="#3D2419" 
-            strokeWidth="1.5" 
+            cx="80" cy="55" r="35" 
+            fill={status === 'crying' ? '#FFF5F5' : 'url(#skinGradient)'} 
+            stroke="#2D1A12" 
+            strokeWidth="1" 
           />
           
+          {/* Ears */}
+          <circle cx="45" cy="55" r="6" fill="url(#skinGradient)" stroke="#2D1A12" strokeWidth="0.5" />
+          <circle cx="115" cy="55" r="6" fill="url(#skinGradient)" stroke="#2D1A12" strokeWidth="0.5" />
+
           {/* Blush */}
           {(status === 'neutral' || status === 'dancing') && (
             <>
-              <circle cx="50" cy="60" r="5" fill="#FFB6C1" opacity="0.6" />
-              <circle cx="90" cy="60" r="5" fill="#FFB6C1" opacity="0.6" />
+              <circle cx="60" cy="68" r="6" fill="#FCA5A5" opacity="0.4" />
+              <circle cx="100" cy="68" r="6" fill="#FCA5A5" opacity="0.4" />
             </>
           )}
 
-          {/* Eyes - More Detailed */}
+          {/* Eyes */}
           {status === 'crying' ? (
             <>
-              <path d="M55 52C55 52 60 48 65 52" stroke="#4B5563" strokeWidth="3" strokeLinecap="round" fill="none" />
-              <path d="M75 52C75 52 80 48 85 52" stroke="#4B5563" strokeWidth="3" strokeLinecap="round" fill="none" />
+              <path d="M62 58Q70 52 78 58" stroke="#4B5563" strokeWidth="3" strokeLinecap="round" fill="none" />
+              <path d="M82 58Q90 52 98 58" stroke="#4B5563" strokeWidth="3" strokeLinecap="round" fill="none" />
             </>
           ) : (
             <>
-              <g className={status === 'dancing' ? 'animate-pulse' : ''}>
-                <circle cx="56" cy="52" r="4.5" fill="#1A1A1A" />
-                <circle cx="84" cy="52" r="4.5" fill="#1A1A1A" />
-                <circle cx="57.5" cy="50" r="1.5" fill="white" />
-                <circle cx="85.5" cy="50" r="1.5" fill="white" />
+              <g className={cn("origin-center", status === 'dancing' ? 'animate-pulse' : 'animate-blink')}>
+                {/* Left Eye */}
+                <circle cx="65" cy="58" r="6" fill="#1A1A1A" />
+                <circle cx="67" cy="56" r="2.5" fill="white" /> {/* Reflection */}
+                <path d="M58 52Q65 48 72 52" stroke="#1A1A1A" strokeWidth="1" fill="none" /> {/* Eyelashes area */}
+                
+                {/* Right Eye */}
+                <circle cx="95" cy="58" r="6" fill="#1A1A1A" />
+                <circle cx="97" cy="56" r="2.5" fill="white" /> {/* Reflection */}
+                <path d="M88 52Q95 48 102 52" stroke="#1A1A1A" strokeWidth="1" fill="none" /> {/* Eyelashes area */}
               </g>
             </>
           )}
 
+          {/* Nose */}
+          <path d="M78 65Q80 67 82 65" stroke="#D19E7A" strokeWidth="1" fill="none" />
+
           {/* Mouth */}
           {status === 'crying' ? (
-            <path d="M62 68C62 68 66 64 70 64C74 64 78 68 78 68" stroke="#4B5563" strokeWidth="3" strokeLinecap="round" />
+            <path d="M70 75Q80 70 90 75" stroke="#4B5563" strokeWidth="3" strokeLinecap="round" />
           ) : status === 'dancing' ? (
-            <path d="M60 65C60 72 80 72 80 65" fill="#B8144D" />
+            <path d="M72 72Q80 82 88 72" fill="#BE185D" />
           ) : (
-            <path d="M65 66C65 66 68 69 70 69C72 69 75 66 75 66" stroke="#1A1A1A" strokeWidth="2" strokeLinecap="round" />
+            <path d="M75 74Q80 76 85 74" stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" />
           )}
 
-          {/* Hair - Front (Bangs) with more shape */}
+          {/* Hair - Front (Bangs) */}
           <path
-            d="M40 45C40 30 50 22 70 22C90 22 100 30 100 45C100 45 85 38 70 38C55 38 40 45 40 45Z"
-            fill="#3D2419"
+            d="M45 50C45 35 55 25 80 25C105 25 115 35 115 50C115 50 100 42 80 42C60 42 45 50 45 50Z"
+            fill="url(#hairGradient)"
           />
+          <path d="M75 25Q80 35 85 25" stroke="#5D3A29" strokeWidth="1" fill="none" opacity="0.5" />
 
-          {/* Dress - Better Silhouette */}
+          {/* Dress */}
           <path
-            d="M52 80L38 140H102L88 80H52Z"
-            fill={status === 'crying' ? '#E5E7EB' : '#CC4CB2'}
-            stroke={status === 'crying' ? '#9CA3AF' : '#B8144D'}
-            strokeWidth="2"
+            d="M60 90L45 150H115L100 90H60Z"
+            fill={status === 'crying' ? '#F3F4F6' : 'url(#dressGradient)'}
+            stroke={status === 'crying' ? '#9CA3AF' : '#86198F'}
+            strokeWidth="1.5"
           />
-          {/* Dress Detail */}
-          <path d="M52 80Q70 95 88 80" stroke="white" strokeWidth="2" fill="none" opacity="0.8" />
-          <circle cx="70" cy="110" r="3" fill="white" opacity="0.5" />
-          <circle cx="55" cy="125" r="2" fill="white" opacity="0.3" />
-          <circle cx="85" cy="125" r="2" fill="white" opacity="0.3" />
+          {/* Dress Details - Collar */}
+          <path d="M60 90Q80 105 100 90" stroke="white" strokeWidth="2" fill="none" opacity="0.6" />
+          <circle cx="80" cy="115" r="3" fill="white" opacity="0.4" />
+          <circle cx="80" cy="130" r="3" fill="white" opacity="0.4" />
 
           {/* Arms */}
           {status === 'dancing' ? (
             <>
-              <path d="M52 95C35 85 25 80 18 85" stroke="#FFEDD5" strokeWidth="8" strokeLinecap="round" className="animate-float" />
-              <path d="M88 95C105 85 115 80 122 85" stroke="#FFEDD5" strokeWidth="8" strokeLinecap="round" className="animate-float" style={{ animationDelay: '0.2s' }} />
+              <path d="M60 105Q40 95 30 100" stroke="#FED7AA" strokeWidth="7" strokeLinecap="round" className="animate-float" />
+              <path d="M100 105Q120 95 130 100" stroke="#FED7AA" strokeWidth="7" strokeLinecap="round" className="animate-float" style={{ animationDelay: '0.2s' }} />
             </>
           ) : status === 'crying' ? (
             <>
-              <path d="M52 95C45 85 50 70 55 65" stroke="#FFEDD5" strokeWidth="8" strokeLinecap="round" />
-              <path d="M88 95C95 85 90 70 85 65" stroke="#FFEDD5" strokeWidth="8" strokeLinecap="round" />
+              <path d="M60 105Q50 90 65 75" stroke="#FED7AA" strokeWidth="7" strokeLinecap="round" />
+              <path d="M100 105Q110 90 95 75" stroke="#FED7AA" strokeWidth="7" strokeLinecap="round" />
             </>
           ) : (
             <>
-              <path d="M52 95C48 105 48 120 50 130" stroke="#FFEDD5" strokeWidth="8" strokeLinecap="round" />
-              <path d="M88 95C92 105 92 120 90 130" stroke="#FFEDD5" strokeWidth="8" strokeLinecap="round" />
+              <path d="M60 105Q55 115 55 135" stroke="#FED7AA" strokeWidth="7" strokeLinecap="round" />
+              <path d="M100 105Q105 115 105 135" stroke="#FED7AA" strokeWidth="7" strokeLinecap="round" />
             </>
           )}
 
           {/* Legs with Specific Running Animation */}
           <g className={cn(status === 'crying' && "animate-run-legs")}>
             <g className={cn(status === 'crying' && "animate-leg-left")}>
-              <path d="M58 140V165" stroke="#333" strokeWidth="8" strokeLinecap="round" />
-              <rect x="50" y="160" width="16" height="7" rx="3.5" fill="#333" />
+              <path d="M68 150V175" stroke="#374151" strokeWidth="8" strokeLinecap="round" />
+              <rect x="60" y="172" width="18" height="8" rx="4" fill="#1F2937" /> {/* Shoe */}
             </g>
             <g className={cn(status === 'crying' && "animate-leg-right")}>
-              <path d="M82 140V165" stroke="#333" strokeWidth="8" strokeLinecap="round" />
-              <rect x="74" y="160" width="16" height="7" rx="3.5" fill="#333" />
+              <path d="M92 150V175" stroke="#374151" strokeWidth="8" strokeLinecap="round" />
+              <rect x="84" y="172" width="18" height="8" rx="4" fill="#1F2937" /> {/* Shoe */}
             </g>
           </g>
 
           {/* Flower (Only when dancing) */}
           {status === 'dancing' && (
-            <g transform="translate(120, 65) rotate(15)">
-              <rect x="2" y="10" width="2" height="20" fill="#059669" />
-              <circle cx="3" cy="5" r="7" fill="#FDE047" />
-              <circle cx="3" cy="-2" r="6" fill="#FFF" />
-              <circle cx="10" cy="5" r="6" fill="#FFF" />
-              <circle cx="3" cy="12" r="6" fill="#FFF" />
-              <circle cx="-4" cy="5" r="6" fill="#FFF" />
+            <g transform="translate(135, 75) rotate(15)">
+              <rect x="2" y="10" width="2" height="25" fill="#10B981" />
+              <circle cx="3" cy="5" r="8" fill="#FDE047" />
+              <circle cx="3" cy="-3" r="7" fill="#FFF" />
+              <circle cx="11" cy="5" r="7" fill="#FFF" />
+              <circle cx="3" cy="13" r="7" fill="#FFF" />
+              <circle cx="-5" cy="5" r="7" fill="#FFF" />
             </g>
           )}
         </svg>
       </div>
 
-      <div className="mt-4 md:mt-8 font-body italic text-lg md:text-xl text-foreground/80 text-center px-4 max-w-[250px]">
+      <div className="mt-4 md:mt-8 font-body italic text-lg md:text-xl text-foreground/90 text-center px-4 max-w-[280px] drop-shadow-sm">
         {status === 'crying' && "Wait! Why are you running away? 🥺"}
         {status === 'dancing' && "My heart is dancing with you! 🌸"}
         {status === 'neutral' && "I have a special question... 👉👈"}

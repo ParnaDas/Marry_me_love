@@ -126,6 +126,10 @@ export default {
         'run-container': {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-5px)' },
+        },
+        'blink': {
+          '0%, 90%, 100%': { transform: 'scaleY(1)' },
+          '95%': { transform: 'scaleY(0.1)' },
         }
       },
       animation: {
@@ -140,6 +144,7 @@ export default {
         'leg-left': 'leg-left 0.2s ease-in-out infinite',
         'leg-right': 'leg-right 0.2s ease-in-out infinite 0.1s',
         'run-legs': 'run-container 0.2s ease-in-out infinite',
+        'blink': 'blink 4s ease-in-out infinite',
       },
     },
   },
