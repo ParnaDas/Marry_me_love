@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState, useEffect } from 'react';
@@ -62,13 +61,13 @@ export default function ProposalPage() {
   const noVisible = noClicks < 3;
 
   const girlStatus = isAccepted 
-    ? 'dancing' 
+    ? 'cuddling' 
     : noClicks > 0 
     ? 'crying' 
     : 'neutral';
 
   const boyStatus = isAccepted
-    ? 'dancing'
+    ? 'cuddling'
     : noClicks > 0
     ? 'nervous'
     : 'neutral';
@@ -79,11 +78,10 @@ export default function ProposalPage() {
         <Celebration />
         
         <div className="max-w-lg w-full space-y-8 animate-float px-4 relative flex flex-col items-center">
-          {/* Kissing Scene */}
-          <div className="flex items-center justify-center gap-2 md:gap-4 mb-8">
-             <Creature type="boy" status="kissing" className="scale-110 md:scale-125" />
-             <div className="text-4xl animate-pulse">❤️</div>
-             <Creature type="girl" status="kissing" flip className="scale-110 md:scale-125" />
+          {/* Cuddling Scene */}
+          <div className="flex items-center justify-center -space-x-12 sm:-space-x-16 mb-8 scale-110 sm:scale-125 md:scale-150">
+             <Creature type="boy" status="cuddling" className="z-20" />
+             <Creature type="girl" status="cuddling" flip className="z-10" />
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-headline font-bold text-foreground leading-tight">
