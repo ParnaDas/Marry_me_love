@@ -61,13 +61,13 @@ export default function ProposalPage() {
   const noVisible = noClicks < 3;
 
   const girlStatus = isAccepted 
-    ? 'cuddling' 
+    ? 'dancing' 
     : noClicks > 0 
     ? 'crying' 
     : 'neutral';
 
   const boyStatus = isAccepted
-    ? 'cuddling'
+    ? 'dancing'
     : noClicks > 0
     ? 'nervous'
     : 'neutral';
@@ -78,10 +78,10 @@ export default function ProposalPage() {
         <Celebration />
         
         <div className="max-w-lg w-full space-y-8 animate-float px-4 relative flex flex-col items-center">
-          {/* Cuddling Scene */}
-          <div className="flex items-center justify-center -space-x-12 sm:-space-x-16 mb-8 scale-110 sm:scale-125 md:scale-150">
-             <Creature type="boy" status="cuddling" className="z-20" />
-             <Creature type="girl" status="cuddling" flip className="z-10" />
+          {/* Dancing Scene */}
+          <div className="flex items-center justify-center gap-8 sm:gap-12 mb-8 scale-110 sm:scale-125 md:scale-150">
+             <Creature type="boy" status="dancing" className="z-20" />
+             <Creature type="girl" status="dancing" flip className="z-10" />
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-headline font-bold text-foreground leading-tight">

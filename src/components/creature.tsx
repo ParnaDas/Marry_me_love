@@ -200,6 +200,19 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
             />
           )}
 
+          {/* Flower for Dancing Girl */}
+          {!isBoy && isDancing && (
+            <g className="animate-bounce" style={{ transform: 'translate(125px, 110px)' }}>
+              <path d="M0 0Q5 -15 0 -30" stroke="#166534" strokeWidth="2" fill="none" />
+              <circle cx="0" cy="-35" r="8" fill="#F472B6" />
+              <circle cx="5" cy="-30" r="8" fill="#F472B6" />
+              <circle cx="-5" cy="-30" r="8" fill="#F472B6" />
+              <circle cx="3" cy="-40" r="8" fill="#F472B6" />
+              <circle cx="-3" cy="-40" r="8" fill="#F472B6" />
+              <circle cx="0" cy="-35" r="4" fill="#FDE047" />
+            </g>
+          )}
+
           {/* Arms (Hugging/Cuddling logic) */}
           {(isDancing || isKissing || isCuddling) ? (
             <>
