@@ -10,7 +10,7 @@ export default function ProposalPage() {
   const [isAccepted, setIsAccepted] = useState(false);
 
   const handleNoClick = () => {
-    if (noClicks < 5) {
+    if (noClicks < 3) {
       setNoClicks(prev => prev + 1);
     }
   };
@@ -19,9 +19,10 @@ export default function ProposalPage() {
     setIsAccepted(true);
   };
 
-  const yesScale = 1 + (noClicks * 0.4);
-  const noScale = Math.max(0, 1 - (noClicks * 0.2));
-  const noVisible = noClicks < 5;
+  // Aggressive scaling so YES grows significantly as NO shrinks
+  const yesScale = 1 + (noClicks * 0.6);
+  const noScale = Math.max(0, 1 - (noClicks * 0.33));
+  const noVisible = noClicks < 3;
 
   if (isAccepted) {
     return (
@@ -55,14 +56,14 @@ export default function ProposalPage() {
           </h1>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12 min-h-[200px]">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12 min-h-[250px]">
           <Button
             size="lg"
             onClick={handleYesClick}
-            className="bg-accent hover:bg-accent/90 text-white font-headline text-2xl px-12 py-8 rounded-full shadow-2xl transition-all duration-300 transform active:scale-95"
+            className="bg-accent hover:bg-accent/90 text-white font-headline text-2xl px-12 py-8 rounded-full shadow-2xl transition-all duration-500 transform active:scale-95 z-10"
             style={{ 
               transform: `scale(${yesScale})`,
-              boxShadow: `0 0 ${noClicks * 10 + 20}px rgba(204, 76, 178, 0.4)` 
+              boxShadow: `0 0 ${noClicks * 15 + 25}px rgba(204, 76, 178, 0.4)` 
             }}
           >
             YES!
@@ -74,7 +75,10 @@ export default function ProposalPage() {
               size="lg"
               onClick={handleNoClick}
               className="border-primary/50 text-muted-foreground font-headline text-lg px-8 py-4 rounded-full transition-all duration-300 transform"
-              style={{ transform: `scale(${noScale})` }}
+              style={{ 
+                transform: `scale(${noScale})`,
+                opacity: noScale 
+              }}
             >
               No
             </Button>
