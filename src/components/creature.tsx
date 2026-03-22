@@ -49,16 +49,16 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
       )}>
         <svg
           width="160"
-          height="200"
-          viewBox="0 0 160 200"
+          height="220"
+          viewBox="0 0 160 220"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="drop-shadow-2xl w-[110px] h-[140px] md:w-[160px] md:h-[200px]"
+          className="drop-shadow-2xl w-[110px] h-[150px] md:w-[160px] md:h-[220px]"
         >
           <defs>
             <linearGradient id="hairGradient" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor={isBoy ? "#000000" : "#3D2318"} />
-              <stop offset="100%" stopColor={isBoy ? "#1a1a1a" : "#1A0F0A"} />
+              <stop offset="100%" stopColor={isBoy ? "#0a0a0a" : "#1A0F0A"} />
             </linearGradient>
             <linearGradient id="skinGradient" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="#FFEDD5" />
@@ -70,10 +70,10 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
             </linearGradient>
           </defs>
 
-          {/* Hair - Back Layer (Thicker for boy) */}
+          {/* Hair - Back Layer */}
           {isBoy ? (
             <path
-              d="M35 30C35 10 50 0 80 0C110 0 125 10 125 30V65H35V30Z"
+              d="M30 35C30 10 50 -5 80 -5C110 -5 130 10 130 35V70H30V35Z"
               fill="url(#hairGradient)"
             />
           ) : (
@@ -95,11 +95,11 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
           )}
 
           {/* Neck */}
-          <rect x="74" y={isBoy ? "70" : "80"} width="12" height="10" fill="#FED7AA" />
+          <rect x="74" y={isBoy ? "75" : "80"} width="12" height="10" fill="#FED7AA" />
 
           {/* Head / Face */}
           <g 
-            className={cn((isKissing || isCuddling) && (isBoy ? "rotate-[10deg] translate-x-1" : "rotate-[-10deg] translate-x--1"))} 
+            className={cn((isKissing || isCuddling) && (isBoy ? "rotate-[12deg] translate-x-2" : "rotate-[-12deg] translate-x-[-2]"))} 
             style={{ transformOrigin: isBoy ? '80px 45px' : '80px 55px' }}
           >
             <circle 
@@ -159,10 +159,10 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
               <path d={isBoy ? "M75 64Q80 66 85 64" : "M75 74Q80 76 85 74"} stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" />
             )}
 
-            {/* Hair - Front (Thicker for boy) */}
+            {/* Hair - Front (Thick and full for boy) */}
             {isBoy ? (
               <path
-                d="M35 30C35 15 50 5 80 5C110 5 125 15 125 30C125 30 100 22 80 22C60 22 35 30 35 30Z"
+                d="M30 35C30 15 45 0 80 0C115 0 130 15 130 35C130 35 110 20 80 20C50 20 30 35 30 35Z"
                 fill="url(#hairGradient)"
               />
             ) : (
@@ -176,16 +176,16 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
           {/* Torso */}
           {isBoy ? (
             <>
-              {/* Black Shirt */}
+              {/* Black Shirt (Longer for taller look) */}
               <path
-                d="M50 80H110V140H50V80Z"
+                d="M50 85H110V155H50V85Z"
                 fill="#121212"
                 stroke="#000000"
                 strokeWidth="1"
               />
               {/* Beige Pants */}
               <path
-                d="M50 140H110V165H50V140Z"
+                d="M50 155H110V180H50V155Z"
                 fill="#F5F5DC"
                 stroke="#D2B48C"
                 strokeWidth="1"
@@ -205,16 +205,16 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
             <>
               <path 
                 d={isCuddling 
-                  ? (isBoy ? "M55 95Q100 95 120 110" : "M60 105Q100 105 120 120") 
-                  : (isBoy ? "M60 95Q40 85 30 90" : "M60 105Q40 95 30 100")
+                  ? (isBoy ? "M55 105Q100 105 120 125" : "M60 115Q100 115 120 135") 
+                  : (isBoy ? "M60 105Q40 95 30 100" : "M60 115Q40 105 30 110")
                 } 
                 stroke="#FED7AA" strokeWidth="8" strokeLinecap="round" 
                 className={cn(!isCuddling && "animate-float")} 
               />
               <path 
                 d={isCuddling 
-                  ? (isBoy ? "M105 95Q60 95 40 110" : "M100 105Q60 105 40 120") 
-                  : (isBoy ? "M100 95Q120 85 130 90" : "M100 105Q120 95 130 100")
+                  ? (isBoy ? "M105 105Q60 105 40 125" : "M100 115Q60 115 40 135") 
+                  : (isBoy ? "M100 105Q120 95 130 100" : "M100 115Q120 105 130 110")
                 } 
                 stroke="#FED7AA" strokeWidth="8" strokeLinecap="round" 
                 className={cn(!isCuddling && "animate-float")} 
@@ -223,31 +223,31 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
             </>
           ) : status === 'crying' ? (
             <>
-              <path d={isBoy ? "M60 95Q50 80 65 65" : "M60 105Q50 90 65 75"} stroke="#FED7AA" strokeWidth="8" strokeLinecap="round" />
-              <path d={isBoy ? "M100 95Q110 80 95 65" : "M100 105Q110 90 95 75"} stroke="#FED7AA" strokeWidth="8" strokeLinecap="round" />
+              <path d={isBoy ? "M60 105Q50 90 65 75" : "M60 115Q50 100 65 85"} stroke="#FED7AA" strokeWidth="8" strokeLinecap="round" />
+              <path d={isBoy ? "M100 105Q110 90 95 75" : "M100 115Q110 100 95 85"} stroke="#FED7AA" strokeWidth="8" strokeLinecap="round" />
             </>
           ) : isNervous ? (
             <>
-              <path d={isBoy ? "M60 95Q55 105 45 115" : "M60 105Q55 115 45 125"} stroke="#FED7AA" strokeWidth="8" strokeLinecap="round" />
-              <path d={isBoy ? "M100 95Q105 105 115 115" : "M100 105Q105 115 115 125"} stroke="#FED7AA" strokeWidth="8" strokeLinecap="round" />
+              <path d={isBoy ? "M60 105Q55 115 45 125" : "M60 115Q55 125 45 135"} stroke="#FED7AA" strokeWidth="8" strokeLinecap="round" />
+              <path d={isBoy ? "M100 105Q105 115 115 125" : "M100 115Q105 125 115 135"} stroke="#FED7AA" strokeWidth="8" strokeLinecap="round" />
             </>
           ) : (
             <>
-              <path d={isBoy ? "M60 95Q55 105 55 125" : "M60 105Q55 115 55 135"} stroke="#FED7AA" strokeWidth="8" strokeLinecap="round" />
-              <path d={isBoy ? "M100 95Q105 115 105 125" : "M100 105Q105 115 105 135"} stroke="#FED7AA" strokeWidth="8" strokeLinecap="round" />
+              <path d={isBoy ? "M60 105Q55 115 55 135" : "M60 115Q55 125 55 145"} stroke="#FED7AA" strokeWidth="8" strokeLinecap="round" />
+              <path d={isBoy ? "M100 105Q105 125 105 135" : "M100 115Q105 125 105 145"} stroke="#FED7AA" strokeWidth="8" strokeLinecap="round" />
             </>
           )}
 
-          {/* Legs (Show boy legs unless cuddling close-up) */}
+          {/* Legs (Boys legs remain stable when nervous) */}
           {isBoy && (
-            <g className={cn((status === 'crying' || isNervous) && "animate-run-legs")}>
-              <g className={cn((status === 'crying' || isNervous) && "animate-leg-left")}>
-                <path d="M68 150V195" stroke="#F5F5DC" strokeWidth="10" strokeLinecap="round" />
-                <rect x="58" y="190" width="22" height="10" rx="5" fill="#1A1A1A" />
+            <g className={cn(status === 'crying' && "animate-run-legs")}>
+              <g className={cn(status === 'crying' && "animate-leg-left")}>
+                <path d="M68 180V215" stroke="#F5F5DC" strokeWidth="10" strokeLinecap="round" />
+                <rect x="58" y="210" width="22" height="10" rx="5" fill="#1A1A1A" />
               </g>
-              <g className={cn((status === 'crying' || isNervous) && "animate-leg-right")}>
-                <path d="M92 150V195" stroke="#F5F5DC" strokeWidth="10" strokeLinecap="round" />
-                <rect x="82" y="190" width="22" height="10" rx="5" fill="#1A1A1A" />
+              <g className={cn(status === 'crying' && "animate-leg-right")}>
+                <path d="M92 180V215" stroke="#F5F5DC" strokeWidth="10" strokeLinecap="round" />
+                <rect x="82" y="210" width="22" height="10" rx="5" fill="#1A1A1A" />
               </g>
             </g>
           )}
