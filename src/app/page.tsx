@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 export default function ProposalPage() {
   const [noClicks, setNoClicks] = useState(0);
   const [isAccepted, setIsAccepted] = useState(false);
+  const [showSms, setShowSms] = useState(false);
   const [creaturePos, setCreaturePos] = useState<{ x: number; y: number } | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
@@ -54,17 +55,13 @@ export default function ProposalPage() {
 
   const handleYesClick = () => {
     setIsAccepted(true);
+    // Show SMS popup after a short delay
+    setTimeout(() => setShowSms(true), 2000);
   };
 
   const yesScale = 1 + (noClicks * 0.4);
   const noScale = Math.max(0, 1 - (noClicks * 0.33));
   const noVisible = noClicks < 3;
-
-  const girlStatus = isAccepted 
-    ? 'dancing' 
-    : noClicks > 0 
-    ? 'crying' 
-    : 'neutral';
 
   const boyStatus = isAccepted
     ? 'dancing'
@@ -77,9 +74,29 @@ export default function ProposalPage() {
       <div className="min-h-[100dvh] flex flex-col items-center justify-center p-4 text-center bg-background animate-in fade-in duration-1000 relative overflow-hidden">
         <Celebration />
         
-        <div className="max-w-lg w-full space-y-8 animate-float px-4 relative flex flex-col items-center">
+        {/* SMS Popup */}
+        {showSms && (
+          <div className="fixed top-8 left-1/2 -translate-x-1/2 w-[90%] max-w-[320px] z-[100] animate-in slide-in-from-top-10 fade-in duration-500">
+            <div className="bg-white/90 backdrop-blur-md border border-pink-100 rounded-2xl p-4 shadow-2xl flex items-start gap-3 text-left">
+              <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0">
+                <HeartIcon className="w-6 h-6 text-white" />
+              </div>
+              <div className="flex-1">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="font-bold text-sm text-foreground">Future Husband ❤️</span>
+                  <span className="text-[10px] text-muted-foreground">now</span>
+                </div>
+                <p className="text-sm text-foreground/80 leading-snug">
+                  I love you so much! I'm the happiest person alive! 💍🌹
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="max-w-lg w-full space-y-8 animate-float px-4 relative flex flex-col items-center mt-12">
           {/* Dancing Scene */}
-          <div className="flex items-center justify-center gap-8 sm:gap-12 mb-8 scale-110 sm:scale-125 md:scale-150">
+          <div className="flex items-center justify-center gap-4 sm:gap-8 mb-8 scale-110 sm:scale-125">
              <Creature type="boy" status="dancing" className="z-20" />
              <Creature type="girl" status="dancing" flip className="z-10" />
           </div>
@@ -109,14 +126,14 @@ export default function ProposalPage() {
         style={{ 
           left: `${mousePos.x}px`, 
           top: `${mousePos.y}px`,
-          transform: `translate(-50%, -50%) scale(0.5)`
+          transform: `translate(-50%, -50%) scale(0.6)`
         }}
       >
         <Creature type="boy" status={boyStatus} />
       </div>
 
       {/* Randomly moving crying girl */}
-      {girlStatus === 'crying' && creaturePos && (
+      {!isAccepted && noClicks > 0 && creaturePos && (
         <div 
           className="fixed z-50 transition-all duration-1000 ease-in-out pointer-events-none transform scale-75 md:scale-100"
           style={{ 
@@ -130,11 +147,11 @@ export default function ProposalPage() {
 
       <div className="max-w-2xl w-full text-center space-y-8 md:space-y-12 z-10">
         <div className="space-y-4 md:space-y-6">
-          {girlStatus === 'neutral' && (
+          {noClicks === 0 && (
             <Creature type="girl" status="neutral" className="mb-4 md:mb-8 scale-90 md:scale-100" />
           )}
           
-          {girlStatus === 'crying' && (
+          {noClicks > 0 && (
             <div className="h-[120px] md:h-[150px] mb-4 md:mb-8" />
           )}
 
