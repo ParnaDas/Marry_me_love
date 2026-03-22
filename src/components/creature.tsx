@@ -1,3 +1,4 @@
+
 "use client"
 
 import React from 'react';
@@ -206,16 +207,16 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
             </>
           )}
 
-          {/* Legs */}
-          {!isKissing && (
+          {/* Legs - Only show for boy as the girl's gown covers them */}
+          {isBoy && !isKissing && (
             <g className={cn(status === 'crying' && "animate-run-legs")}>
               <g className={cn(status === 'crying' && "animate-leg-left")}>
-                <path d={isBoy ? "M68 150V190" : "M68 150V180"} stroke={isBoy ? "#F5F5DC" : "#374151"} strokeWidth="8" strokeLinecap="round" />
-                <rect x="60" y={isBoy ? "186" : "176"} width="18" height="8" rx="4" fill="#1F2937" />
+                <path d="M68 150V190" stroke="#F5F5DC" strokeWidth="8" strokeLinecap="round" />
+                <rect x="60" y="186" width="18" height="8" rx="4" fill="#1F2937" />
               </g>
               <g className={cn(status === 'crying' && "animate-leg-right")}>
-                <path d={isBoy ? "M92 150V190" : "M92 150V180"} stroke={isBoy ? "#F5F5DC" : "#374151"} strokeWidth="8" strokeLinecap="round" />
-                <rect x="84" y={isBoy ? "186" : "176"} width="18" height="8" rx="4" fill="#1F2937" />
+                <path d="M92 150V190" stroke="#F5F5DC" strokeWidth="8" strokeLinecap="round" />
+                <rect x="84" y="186" width="18" height="8" rx="4" fill="#1F2937" />
               </g>
             </g>
           )}
