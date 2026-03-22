@@ -48,8 +48,8 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
         >
           <defs>
             <linearGradient id="hairGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor={isBoy ? "#2D1A12" : "#4A2B1F"} />
-              <stop offset="100%" stopColor="#1A0D08" />
+              <stop offset="0%" stopColor={isBoy ? "#0a0a0a" : "#4A2B1F"} />
+              <stop offset="100%" stopColor="#000000" />
             </linearGradient>
             <linearGradient id="skinGradient" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="#FFEDD5" />
@@ -64,8 +64,9 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
 
           {/* Hair - Back Layer */}
           {isBoy ? (
+            /* Thicker Boy Hair Back */
             <path
-              d="M45 35C45 20 60 10 80 10C100 10 115 20 115 35V60H45V35Z"
+              d="M40 35C40 15 55 5 80 5C105 5 120 15 120 35V60H40V35Z"
               fill="url(#hairGradient)"
             />
           ) : (
@@ -149,8 +150,9 @@ export function Creature({ status, type = 'girl', className, flip }: CreaturePro
 
             {/* Hair - Front */}
             {isBoy ? (
+              /* Thicker Boy Hair Front */
               <path
-                d="M45 35C45 25 55 15 80 15C105 15 115 25 115 35C115 35 100 30 80 30C60 30 45 35 45 35Z"
+                d="M40 35C40 20 55 10 80 10C105 10 120 20 120 35C120 35 100 28 80 28C60 28 40 35 40 35Z"
                 fill="url(#hairGradient)"
               />
             ) : (
