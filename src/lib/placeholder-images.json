@@ -1,3 +1,10 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "romantic-bg",
+      "description": "A close up of two hands held together with a romantic evening background",
+      "imageUrl": "https://picsum.photos/seed/romantic/1920/1080",
+      "imageHint": "romantic love"
+    }
+  ]
 }
