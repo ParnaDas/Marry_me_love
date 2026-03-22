@@ -1,6 +1,7 @@
+
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { HeartIcon } from "@/components/ui/heart-icon";
 import { Celebration } from "@/components/celebration";
@@ -9,6 +10,31 @@ import { Creature } from "@/components/creature";
 export default function ProposalPage() {
   const [noClicks, setNoClicks] = useState(0);
   const [isAccepted, setIsAccepted] = useState(false);
+  const [creaturePos, setCreaturePos] = useState<{ x: number; y: number } | null>(null);
+
+  // Handle the random movement of the crying creature
+  useEffect(() => {
+    if (noClicks > 0 && !isAccepted) {
+      const moveCreature = () => {
+        // Ensure we stay within screen bounds minus creature approximate size
+        const maxX = typeof window !== 'undefined' ? window.innerWidth - 120 : 0;
+        const maxY = typeof window !== 'undefined' ? window.innerHeight - 120 : 0;
+        
+        const randomX = Math.random() * maxX;
+        const randomY = Math.random() * maxY;
+        
+        setCreaturePos({ x: randomX, y: randomY });
+      };
+
+      // Set initial random position and then interval
+      moveCreature();
+      const interval = setInterval(moveCreature, 1200); // Move every 1.2s for "running" feel
+      
+      return () => clearInterval(interval);
+    } else {
+      setCreaturePos(null);
+    }
+  }, [noClicks, isAccepted]);
 
   const handleNoClick = () => {
     if (noClicks < 3) {
@@ -33,7 +59,7 @@ export default function ProposalPage() {
 
   if (isAccepted) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center bg-background animate-in fade-in duration-1000">
+      <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center bg-background animate-in fade-in duration-1000 relative overflow-hidden">
         <Celebration />
         <div className="max-w-md space-y-8 animate-float">
           <Creature status="dancing" className="scale-150 mb-12" />
@@ -55,10 +81,32 @@ export default function ProposalPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-background">
-      <div className="max-w-2xl w-full text-center space-y-12">
+    <div className="min-h-screen flex items-center justify-center p-6 bg-background relative overflow-hidden">
+      {/* Randomly moving crying creature */}
+      {creatureStatus === 'crying' && creaturePos && (
+        <div 
+          className="fixed z-50 transition-all duration-1000 ease-in-out pointer-events-none"
+          style={{ 
+            left: `${creaturePos.x}px`, 
+            top: `${creaturePos.y}px` 
+          }}
+        >
+          <Creature status="crying" />
+        </div>
+      )}
+
+      <div className="max-w-2xl w-full text-center space-y-12 z-10">
         <div className="space-y-6">
-          <Creature status={creatureStatus} className="mb-8" />
+          {/* Neutral creature stays in the layout flow */}
+          {creatureStatus === 'neutral' && (
+            <Creature status="neutral" className="mb-8" />
+          )}
+          
+          {/* Placeholder to keep title position stable when creature starts running */}
+          {creatureStatus === 'crying' && (
+            <div className="h-[150px] mb-8" />
+          )}
+
           <h1 className="text-4xl md:text-6xl font-headline font-semibold text-foreground leading-tight px-4">
             Do you love me? <br />
             <span className="text-primary">Want to marry me??</span>
