@@ -70,20 +70,15 @@ export default function ProposalPage() {
     return (
       <div className="min-h-[100dvh] flex flex-col items-center justify-center p-4 text-center bg-background animate-in fade-in duration-1000 relative overflow-hidden">
         <Celebration />
-        {/* Boy character follows mouse even on success page, but in "dancing" mode */}
-        <div 
-          className="fixed pointer-events-none z-[100] transition-all duration-300 ease-out hidden md:block"
-          style={{ 
-            left: `${mousePos.x}px`, 
-            top: `${mousePos.y}px`,
-            transform: 'translate(-50%, -50%) scale(0.6)'
-          }}
-        >
-          <Creature type="boy" status="dancing" />
-        </div>
+        
+        <div className="max-w-lg w-full space-y-8 animate-float px-4 relative flex flex-col items-center">
+          {/* Kissing Scene */}
+          <div className="flex items-center justify-center gap-2 md:gap-4 mb-8">
+             <Creature type="boy" status="kissing" className="scale-110 md:scale-125" />
+             <div className="text-4xl animate-pulse">❤️</div>
+             <Creature type="girl" status="kissing" flip className="scale-110 md:scale-125" />
+          </div>
 
-        <div className="max-w-lg w-full space-y-6 md:space-y-8 animate-float px-4">
-          <Creature type="girl" status="dancing" className="scale-110 md:scale-150 mb-6 md:mb-12" />
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-headline font-bold text-foreground leading-tight">
             I Knew You'd Say Yes!
           </h1>
