@@ -4,27 +4,36 @@
 
 @layer base {
   :root {
-    /* Background: #2F2126 -> HSL(339, 18%, 15%) */
-    --background: 339 18% 15%;
-    --foreground: 0 0% 98%;
-    --card: 339 18% 18%;
-    --card-foreground: 0 0% 98%;
-    --popover: 339 18% 15%;
-    --popover-foreground: 0 0% 98%;
+    /* Background: White -> HSL(0, 0%, 100%) */
+    --background: 0 0% 100%;
+    /* Foreground: Deep Charcoal/Crimson -> HSL(339, 18%, 15%) */
+    --foreground: 339 18% 15%;
+    
+    --card: 0 0% 98%;
+    --card-foreground: 339 18% 15%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 339 18% 15%;
+    
     /* Primary (Crimson): #B8144D -> HSL(339, 80%, 40%) */
     --primary: 339 80% 40%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 339 20% 25%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 339 20% 25%;
-    --muted-foreground: 339 20% 70%;
+    
+    --secondary: 339 10% 96%;
+    --secondary-foreground: 339 80% 40%;
+    
+    --muted: 339 10% 96%;
+    --muted-foreground: 339 10% 45%;
+    
     /* Accent (Fuchsia): #CC4CB2 -> HSL(312, 54%, 55%) */
     --accent: 312 54% 55%;
     --accent-foreground: 0 0% 98%;
+    
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 339 20% 25%;
-    --input: 339 20% 25%;
+    
+    --border: 339 10% 90%;
+    --input: 339 10% 90%;
     --ring: 312 54% 55%;
     --radius: 1rem;
   }
